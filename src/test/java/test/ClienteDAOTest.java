@@ -5,21 +5,22 @@ import org.junit.Before;
 import org.junit.Test;
 
 import dao.ClienteDAOMock;
-import dao.IClienteDAO;
 import domain.Cliente;
+import exception.TipoChaveNaoEncontradoException;
+import generics.IGenericDAO;
 
 public class ClienteDAOTest {
 	
 	private Cliente cliente;
 	
-	private IClienteDAO clienteDao;
+	private IGenericDAO<Cliente, Long> clienteDao;
 	
 	public ClienteDAOTest() {
 		clienteDao = new ClienteDAOMock();
 	}
 
 	@Before
-	public void init() {
+	public void init() throws TipoChaveNaoEncontradoException {
 		cliente = new Cliente();
 		cliente.setNome("Douglas");
 		cliente.setCpf(1234567890L);
@@ -39,7 +40,7 @@ public class ClienteDAOTest {
 	}
 	
 	@Test
-	public void salvarCliente() {
+	public void salvarCliente() throws TipoChaveNaoEncontradoException {
 		Boolean retorno = clienteDao.cadastrar(cliente);
 		Assert.assertTrue(retorno);
 	}
@@ -50,7 +51,7 @@ public class ClienteDAOTest {
 	}
 	
 	@Test
-	public void alterarCliente() {
+	public void alterarCliente() throws TipoChaveNaoEncontradoException {
 		clienteDao.alterar(cliente);
 	}
 }

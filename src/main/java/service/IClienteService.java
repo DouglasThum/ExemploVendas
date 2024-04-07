@@ -5,7 +5,7 @@ import exception.TipoChaveNaoEncontradoException;
 
 public interface IClienteService {
 
-	Boolean salvar(Cliente cliente) throws TipoChaveNaoEncontradoException;
+	Boolean cadastrar(Cliente cliente) throws TipoChaveNaoEncontradoException;
 
 	Cliente buscarPorCpf(Long cpf);
 

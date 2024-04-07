@@ -1,8 +1,12 @@
 package domain;
 
+import java.io.Serializable;
+
 import annotation.TipoChave;
 
-public class Cliente implements Persistente{
+public class Cliente implements Persistente, Serializable {
+
+	private static final long serialVersionUID = 1L;
 	
 	private String nome;
 	@TipoChave("getCpf")

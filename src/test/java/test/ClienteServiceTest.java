@@ -9,16 +9,16 @@ import dao.IClienteDAO;
 import domain.Cliente;
 import exception.TipoChaveNaoEncontradoException;
 import service.ClienteService;
-import service.IClienteService;
+import service.generic.IGenericService;
 
 public class ClienteServiceTest {
 	
-	private IClienteService clienteService;
 	private Cliente cliente;
+	private IGenericService<Cliente, Long> service;
 	
 	public ClienteServiceTest() {
 		IClienteDAO dao = new ClienteDAOMock();
-		clienteService = new ClienteService(dao);
+		service = new ClienteService(dao);
 	}
 	
 	@Before
@@ -35,25 +35,25 @@ public class ClienteServiceTest {
 	
 	@Test
 	public void pesquisarCliente() {
-		Cliente clienteConsultado = clienteService.buscarPorCpf(cliente.getCpf());
+		Cliente clienteConsultado = service.consultar(cliente.getCpf());
 		Assert.assertNotNull(clienteConsultado);
 	}
 
 	@Test
 	public void salvarCliente() throws TipoChaveNaoEncontradoException {
-		Boolean retorno = clienteService.salvar(cliente);
+		Boolean retorno = service.cadastrar(cliente);
 		Assert.assertTrue(retorno);
 	}
 	
 	@Test
 	public void excluirCliente() {
-		clienteService.excluir(cliente.getCpf());
+		service.excluir(cliente.getCpf());
 	}
 	
 	@Test
 	public void alterarCliente() throws TipoChaveNaoEncontradoException {
 		cliente.setNome("Douglas Oliveira");
-		clienteService.alterar(cliente);
+		service.alterar(cliente);
 		
 		Assert.assertEquals("Douglas Oliveira", cliente.getNome());
 	}

@@ -1,5 +1,6 @@
 package generics;
 
+import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -9,66 +10,81 @@ import java.util.Map;
 
 import annotation.TipoChave;
 import domain.Persistente;
+import exception.TipoChaveNaoEncontradoException;
 
 
-public abstract class GenericDAO<T extends Persistente> implements IGenericDAO<T> {
+public abstract class GenericDAO<T extends Persistente, E extends Serializable> implements IGenericDAO<T, E> {
 	
-	@SuppressWarnings("rawtypes")
-	protected Map<Class, Map<Long, T>> map;
+	// protected Map<Class, Map<Long, T>> map;
+	
+	private SingletonMap singletonMap;
 	
 	public abstract Class<T> getClassType();
 	
 	public abstract void atualizarDados(T entityNovo, T entityCadastrado);
 	
 	public GenericDAO() {
-		if (this.map == null) {
-			this.map = new HashMap<>();
-		}
+		this.singletonMap = SingletonMap.getInstance();
 	}
 	
-	public Long getChave(T entity) {
-		Field[] fields = entity.getClass().getDeclaredFields();
-		for(Field field : fields) {
-			if(field.isAnnotationPresent(TipoChave.class)) {
-				TipoChave tipoChave = field.getAnnotation(TipoChave.class);
-				String nomeMetodo = tipoChave.value();
-				try {
-					Method method = entity.getClass().getMethod(nomeMetodo);
-					Long value = (Long) method.invoke(entity);
-					return value;
-				} catch (NoSuchMethodException | SecurityException | IllegalAccessException | InvocationTargetException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		return null;
-	}
+    @SuppressWarnings("unchecked")
+	public E getChave(T entity) throws TipoChaveNaoEncontradoException {
+        Field[] fields = entity.getClass().getDeclaredFields();
+        E returnValue = null;
+        for (Field field : fields) {
+            if (field.isAnnotationPresent(TipoChave.class)) {
+                TipoChave tipoChave = field.getAnnotation(TipoChave.class);
+                String nomeMetodo = tipoChave.value();
+                try {
+                    Method method = entity.getClass().getMethod(nomeMetodo);
+                    returnValue = (E)method.invoke(entity);
+                    return returnValue;
+                } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+                    e.printStackTrace();
+                    throw new TipoChaveNaoEncontradoException("Chave principal do objeto " + entity.getClass() + " não encontrada", e);
+                }
+            }
+        }
+        String msg = "Chave principal do objeto " + entity.getClass() + " não encontrada";
+		System.out.println("**** ERRO ****" + msg);
+		throw new TipoChaveNaoEncontradoException(msg);
+    }
 
 	@Override
-	public Boolean cadastrar(T entity) {
-		Map<Long, T> mapaInterno =  this.map.get(getClassType());
-		Long chave = getChave(entity);
+	public Boolean cadastrar(T entity) throws TipoChaveNaoEncontradoException {
+		Map<E, T> mapaInterno =  getMapa();
+		E chave = getChave(entity);
 		if (mapaInterno.containsKey(chave)) {
 			return true;
 		}
 		mapaInterno.put(chave, entity);
 		return false;
 	}
+	
+	private Map<E, T> getMapa() {
+		@SuppressWarnings("unchecked")
+		Map<E, T> mapaInterno = (Map<E, T>) this.singletonMap.getMap().get(getClassType());
+		if (mapaInterno == null) {
+			mapaInterno = new HashMap<>();
+			this.singletonMap.getMap().put(getClassType(), mapaInterno);
+		}
+		return mapaInterno;
+	}
 
 	@Override
-	public void excluir(Long codigo) {
-		Map<Long, T> mapaInterno = this.map.get(getClassType());
+	public void excluir(E codigo) {
+		Map<E, T> mapaInterno = getMapa();
 		T objCadastrado = mapaInterno.get(codigo);
 		
 		if (objCadastrado != null) {
-			this.map.remove(codigo, objCadastrado);
+			mapaInterno.remove(codigo, objCadastrado);
 		}
 	}
 
 	@Override
-	public void alterar(T entity) {
-		Map<Long, T> mapaInterno = this.map.get(getClassType());
-		Long chave = getChave(entity);
+	public void alterar(T entity) throws TipoChaveNaoEncontradoException {
+		Map<E, T> mapaInterno = getMapa();
+		E chave = getChave(entity);
 		T objCadastrado = mapaInterno.get(chave);
 		if (objCadastrado != null) {
 			atualizarDados(entity, objCadastrado);
@@ -76,14 +92,14 @@ public abstract class GenericDAO<T extends Persistente> implements IGenericDAO<T
 	}
 
 	@Override
-	public T consultar(Long codigo) {
-		Map<Long, T> mapaInterno =  this.map.get(getClassType());
+	public T consultar(E codigo) {
+		Map<E, T> mapaInterno = getMapa();
 		return mapaInterno.get(codigo);
 	}
 
 	@Override
 	public Collection<T> buscarTodos() {
-		Map<Long, T> mapaInterno =  this.map.get(getClassType());
+		Map<E, T> mapaInterno = getMapa();
 		return mapaInterno.values();
 	}
 }

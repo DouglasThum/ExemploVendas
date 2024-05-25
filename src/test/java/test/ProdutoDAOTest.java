@@ -1,5 +1,7 @@
 package test;
 
+import java.math.BigDecimal;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,7 +15,7 @@ public class ProdutoDAOTest {
 	
 	private Produto produto;
 	
-	private IGenericDAO<Produto, Long> produtoDao;
+	private IGenericDAO<Produto, String> produtoDao;
 	
 	public ProdutoDAOTest() {
 		produtoDao = new ProdutoDAOMock();
@@ -22,16 +24,16 @@ public class ProdutoDAOTest {
 	@Before
 	public void init() throws TipoChaveNaoEncontradoException {
 		produto = new Produto();
-		produto.setCod(12345L);
+		produto.setCodigo("String");
 		produto.setNome("Produto1");
 		produto.setDescricao("Produto descrição");
-		produto.setValor(50.0);
+		produto.setValor(BigDecimal.valueOf(50.0));
 		produtoDao.cadastrar(produto);
 	}
 	
 	@Test
 	public void pesquisarProduto() {
-		Produto produtoConsultado = produtoDao.consultar(produto.getCod());
+		Produto produtoConsultado = produtoDao.consultar(produto.getCodigo());
 		
 		Assert.assertNotNull(produtoConsultado);
 	}
@@ -44,7 +46,7 @@ public class ProdutoDAOTest {
 	
 	@Test
 	public void excluirProduto() {
-		produtoDao.excluir(produto.getCod());
+		produtoDao.excluir(produto.getCodigo());
 	}
 	
 	@Test

@@ -55,10 +55,10 @@ public abstract class GenericDAO<T extends Persistente, E extends Serializable> 
 		Map<E, T> mapaInterno =  getMapa();
 		E chave = getChave(entity);
 		if (mapaInterno.containsKey(chave)) {
-			return true;
+			return false;
 		}
 		mapaInterno.put(chave, entity);
-		return false;
+		return true;
 	}
 	
 	private Map<E, T> getMapa() {

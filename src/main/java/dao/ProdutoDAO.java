@@ -3,7 +3,7 @@ package dao;
 import generics.GenericDAO;
 import domain.Produto;
 
-public class ProdutoDAO extends GenericDAO<Produto, Long> implements IProdutoDAO {
+public class ProdutoDAO extends GenericDAO<Produto, String> implements IProdutoDAO {
 
 	public ProdutoDAO() {
 		super();
@@ -16,7 +16,7 @@ public class ProdutoDAO extends GenericDAO<Produto, Long> implements IProdutoDAO
 
 	@Override
 	public void atualizarDados(Produto entityNovo, Produto entityCadastrado) {
-		entityCadastrado.setCod(entityNovo.getCod());
+		entityCadastrado.setCodigo(entityNovo.getCodigo());
 		entityCadastrado.setNome(entityNovo.getNome());
 		entityCadastrado.setDescricao(entityNovo.getDescricao());
 		entityCadastrado.setValor(entityNovo.getValor());

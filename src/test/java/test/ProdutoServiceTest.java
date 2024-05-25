@@ -1,5 +1,7 @@
 package test;
 
+import java.math.BigDecimal;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,7 +16,7 @@ import service.generic.IGenericService;
 public class ProdutoServiceTest {
 	
 	private Produto produto;
-	private IGenericService<Produto, Long> service;
+	private IGenericService<Produto, String> service;
 	
 	public ProdutoServiceTest() {
 		IProdutoDAO dao = new ProdutoDAOMock();
@@ -24,15 +26,15 @@ public class ProdutoServiceTest {
 	@Before
 	public void init() {
 		produto = new Produto();
-		produto.setCod(12345L);
+		produto.setCodigo("12345");
 		produto.setNome("Produto1");
 		produto.setDescricao("Produto descrição");
-		produto.setValor(50.0);
+		produto.setValor(BigDecimal.valueOf(50.0));
 	}
 	
 	@Test
 	public void pesquisarProduto() {
-		Produto produtoConsultado = service.consultar(produto.getCod());
+		Produto produtoConsultado = service.consultar(produto.getCodigo());
 		Assert.assertNotNull(produtoConsultado);
 	}
 
@@ -44,7 +46,7 @@ public class ProdutoServiceTest {
 	
 	@Test
 	public void excluirProduto() {
-		service.excluir(produto.getCod());
+		service.excluir(produto.getCodigo());
 	}
 	
 	@Test

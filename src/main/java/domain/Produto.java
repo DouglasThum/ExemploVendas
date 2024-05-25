@@ -1,17 +1,19 @@
 package domain;
 
+import java.math.BigDecimal;
+
 import annotation.TipoChave;
 
 public class Produto implements Persistente {
 	
 	@TipoChave("getCodigo")
-	private Long cod;
+	private String codigo;
 	private String nome;
 	private String descricao;
-	private Double valor;
-	public Produto(Long cod, String nome, String descricao, Double valor) {
+	private BigDecimal valor;
+	public Produto(String codigo, String nome, String descricao, BigDecimal valor) {
 		super();
-		this.cod = cod;
+		this.codigo = codigo;
 		this.nome = nome;
 		this.descricao = descricao;
 		this.valor = valor;
@@ -20,12 +22,12 @@ public class Produto implements Persistente {
 	public Produto() {
 	}
 	
-	public Long getCod() {
-		return cod;
+	public String getCodigo() {
+		return codigo;
 	}
 	
-	public void setCod(Long cod) {
-		this.cod = cod;
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
 	}
 	
 	public String getNome() {
@@ -44,11 +46,11 @@ public class Produto implements Persistente {
 		this.descricao = descricao;
 	}
 	
-	public Double getValor() {
+	public BigDecimal getValor() {
 		return valor;
 	}
 	
-	public void setValor(Double valor) {
+	public void setValor(BigDecimal valor) {
 		this.valor = valor;
 	}
 }

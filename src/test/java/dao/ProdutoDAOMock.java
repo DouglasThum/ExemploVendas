@@ -14,7 +14,7 @@ public class ProdutoDAOMock implements IProdutoDAO {
 	}
 
 	@Override
-	public void excluir(Long codigo) {
+	public void excluir(String codigo) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -26,9 +26,9 @@ public class ProdutoDAOMock implements IProdutoDAO {
 	}
 
 	@Override
-	public Produto consultar(Long codigo) {
+	public Produto consultar(String codigo) {
 		Produto produto = new Produto();
-		produto.setCod(codigo);
+		produto.setCodigo(codigo);
 		return produto;
 	}
 

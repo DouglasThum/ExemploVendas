@@ -7,9 +7,9 @@ public interface IProdutoService {
 
 	Boolean cadastrar(Produto produto) throws TipoChaveNaoEncontradoException;
 
-	Produto buscarPorCod(Long cod);
+	Produto buscarPorCod(String cod);
 
-	void excluir(Long cod);
+	void excluir(String cod);
 
 	void alterar(Produto produto) throws TipoChaveNaoEncontradoException;
 }

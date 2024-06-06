@@ -1,6 +1,12 @@
 package service;
 
 import domain.Produto;
+import exception.DAOException;
+import exception.MaisDeUmRegistroException;
+import exception.TabelaException;
+
+import java.sql.SQLException;
+
 import dao.IProdutoDAO;
 import service.generic.GenericService;
 
@@ -11,7 +17,7 @@ public class ProdutoService extends GenericService<Produto, String> implements I
 	}
 
 	@Override
-	public Produto buscarPorCod(String cod) {
+	public Produto buscarPorCod(String cod) throws MaisDeUmRegistroException, TabelaException, DAOException, SQLException {
 		return this.dao.consultar(cod);
 	}
 

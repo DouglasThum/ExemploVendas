@@ -2,17 +2,32 @@ package domain;
 
 import java.math.BigDecimal;
 
+import annotation.ColunaTabela;
+import annotation.Tabela;
 import annotation.TipoChave;
 
+@Tabela("TB_PRODUTO")
 public class Produto implements Persistente {
 	
+	@ColunaTabela(dbName = "id", setJavaName = "setId")
+	private Long id;
+	
 	@TipoChave("getCodigo")
+	@ColunaTabela(dbName = "codigo", setJavaName = "setCodigo")
 	private String codigo;
+	
+	@ColunaTabela(dbName = "nome", setJavaName = "setNome")
 	private String nome;
+	
+	@ColunaTabela(dbName = "descricao", setJavaName = "setDescricao")
 	private String descricao;
+	
+	@ColunaTabela(dbName = "valor", setJavaName = "setValor")
 	private BigDecimal valor;
-	public Produto(String codigo, String nome, String descricao, BigDecimal valor) {
+	
+	public Produto(Long id, String codigo, String nome, String descricao, BigDecimal valor) {
 		super();
+		this.id = id;
 		this.codigo = codigo;
 		this.nome = nome;
 		this.descricao = descricao;
@@ -52,5 +67,15 @@ public class Produto implements Persistente {
 	
 	public void setValor(BigDecimal valor) {
 		this.valor = valor;
+	}
+
+	@Override
+	public Long getId() {
+		return id;
+	}
+
+	@Override
+	public void setId(Long id) {
+		this.id = id;		
 	}
 }

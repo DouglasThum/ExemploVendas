@@ -1,8 +1,12 @@
 package service.generic;
 
 import java.io.Serializable;
+import java.sql.SQLException;
 
 import domain.Persistente;
+import exception.DAOException;
+import exception.MaisDeUmRegistroException;
+import exception.TabelaException;
 import exception.TipoChaveNaoEncontradoException;
 import generics.IGenericDAO;
 
@@ -15,22 +19,22 @@ public abstract class GenericService<T extends Persistente, E extends Serializab
 	}
 
 	@Override
-	public Boolean cadastrar(T entity) throws TipoChaveNaoEncontradoException {
+	public Boolean cadastrar(T entity) throws TipoChaveNaoEncontradoException, DAOException, SQLException {
 		return this.dao.cadastrar(entity);
 	}
 
 	@Override
-	public void excluir(E valor) {
+	public void excluir(E valor) throws MaisDeUmRegistroException, TabelaException, DAOException {
 		this.dao.excluir(valor);		
 	}
 
 	@Override
-	public void alterar(T entity) throws TipoChaveNaoEncontradoException {
+	public void alterar(T entity) throws TipoChaveNaoEncontradoException, DAOException, SQLException {
 		this.dao.alterar(entity);		
 	}
 
 	@Override
-	public T consultar(E valor) {
+	public T consultar(E valor) throws MaisDeUmRegistroException, TabelaException, DAOException, SQLException {
 		return this.dao.consultar(valor);
 	}
 }

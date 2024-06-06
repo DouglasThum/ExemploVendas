@@ -1,27 +1,43 @@
 package domain;
 
-import java.io.Serializable;
-
+import annotation.ColunaTabela;
+import annotation.Tabela;
 import annotation.TipoChave;
 
-public class Cliente implements Persistente, Serializable {
-
-	private static final long serialVersionUID = 1L;
+@Tabela("TB_CLIENTE")
+public class Cliente implements Persistente{
 	
+	@ColunaTabela(dbName = "id", setJavaName = "setId")
+	private Long id;
+	
+	@ColunaTabela(dbName = "id", setJavaName = "setNome")
 	private String nome;
+	
 	@TipoChave("getCpf")
+	@ColunaTabela(dbName = "cpf", setJavaName = "setCpf")
 	private Long cpf;
+	
+	@ColunaTabela(dbName = "tel", setJavaName = "setTel")
 	private Long tel;
+	
+	@ColunaTabela(dbName = "rua", setJavaName = "setRua")
 	private String rua;
-	private Integer num;
+	
+	@ColunaTabela(dbName = "num", setJavaName = "setNum")
+	private Long num;
+	
+	@ColunaTabela(dbName = "cidade", setJavaName = "setCidade")
 	private String cidade;
+	
+	@ColunaTabela(dbName = "estado", setJavaName = "setEstado")
 	private String estado;
 
 	public Cliente() {
 	}
 
-	public Cliente(String nome, Long cpf, Long tel, String rua, Integer num, String cidade, String estado) {
+	public Cliente(Long id, String nome, Long cpf, Long tel, String rua, Long num, String cidade, String estado) {
 		super();
+		this.id = id;
 		this.nome = nome;
 		this.cpf = cpf;
 		this.tel = tel;
@@ -63,11 +79,11 @@ public class Cliente implements Persistente, Serializable {
 		this.rua = rua;
 	}
 
-	public Integer getNum() {
+	public Long getNum() {
 		return num;
 	}
 
-	public void setNum(Integer num) {
+	public void setNum(Long num) {
 		this.num = num;
 	}
 
@@ -85,5 +101,15 @@ public class Cliente implements Persistente, Serializable {
 
 	public void setEstado(String estado) {
 		this.estado = estado;
+	}
+
+	@Override
+	public Long getId() {
+		return id;
+	}
+
+	@Override
+	public void setId(Long id) {
+		this.id = id;		
 	}
 }

@@ -1,7 +1,12 @@
 package service;
 
+import java.sql.SQLException;
+
 import dao.IClienteDAO;
 import domain.Cliente;
+import exception.DAOException;
+import exception.MaisDeUmRegistroException;
+import exception.TabelaException;
 import service.generic.GenericService;
 
 public class ClienteService extends GenericService<Cliente, Long> implements IClienteService {
@@ -11,7 +16,7 @@ public class ClienteService extends GenericService<Cliente, Long> implements ICl
 	}
 
 	@Override
-	public Cliente buscarPorCpf(Long cpf) {
+	public Cliente buscarPorCpf(Long cpf) throws MaisDeUmRegistroException, TabelaException, DAOException, SQLException {
 		return this.dao.consultar(cpf);
 	}
 }

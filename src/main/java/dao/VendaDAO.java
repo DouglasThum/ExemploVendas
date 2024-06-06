@@ -1,14 +1,18 @@
 package dao;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
 import domain.Venda;
 import domain.Venda.Status;
+import exception.DAOException;
 import exception.TipoChaveNaoEncontradoException;
 import generics.GenericDAO;
 
 public class VendaDAO extends GenericDAO<Venda, String> implements IVendaDAO {
 
 	@Override
-	public void finalizarVenda(Venda venda) throws TipoChaveNaoEncontradoException {
+	public void finalizarVenda(Venda venda) throws TipoChaveNaoEncontradoException, DAOException {
 		venda.setStatus(Status.CONCLUIDA);
 		super.alterar(venda);
 	}
@@ -32,4 +36,45 @@ public class VendaDAO extends GenericDAO<Venda, String> implements IVendaDAO {
 		throw new UnsupportedOperationException("OPERAÇÃO NÃO PERMITIDA");
 	}
 
+	@Override
+	public String getQueryInsercao() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getQueryExclusao() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getQueryAtualizacao() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected void setParametrosQueryInsercao(PreparedStatement stmInsert, Venda entity) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void setParametrosQueryExclusao(PreparedStatement stmDelete, String valor) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void setParametrosQueryAtualizacao(PreparedStatement stmUpdate, Venda entity) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void setParametrosQuerySelect(PreparedStatement stmSelect, String valor) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
 }

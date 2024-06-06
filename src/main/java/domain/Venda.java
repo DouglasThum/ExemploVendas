@@ -6,19 +6,45 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
+import annotation.ColunaTabela;
+import annotation.Tabela;
 import annotation.TipoChave;
 
+@Tabela("TB_VENDA")
 public class Venda implements Persistente {
 	
 	public enum Status {
 		INICIADA, CONCLUIDA, CANCELADA;
 	}
+	
+	public static Status getByName(String value) {
+		for (Status status: Status.values()) {
+			if(status.name().equals(value)) {
+				return status;
+			}
+		}
+		return null;
+	}
+	
+	@ColunaTabela(dbName = "id", setJavaName = "setId")
+	private Long id;
+	
 	@TipoChave("getCodigo")
+	@ColunaTabela(dbName = "codigo", setJavaName = "setCodigo")
 	private String codigo;
+	
+	@ColunaTabela(dbName = "cliente", setJavaName = "setCliente")
 	private Cliente cliente;
+	
 	private Set<ProdutoQuantidade> produtos;
+	
+	@ColunaTabela(dbName = "valorTotal", setJavaName = "setValorTotal")
 	private BigDecimal valorTotal;
+	
+	@ColunaTabela(dbName = "dataVenda", setJavaName = "setDataVenda")
 	private Instant dataVenda;
+	
+	@ColunaTabela(dbName = "status", setJavaName = "setStatus")
 	private Status status;
 	
 	public Venda() {
@@ -132,9 +158,13 @@ public class Venda implements Persistente {
 	}
 
 	@Override
-	public String toString() {
-		return "Venda [codigo=" + codigo + ", cliente=" + cliente + ", produtos=" + produtos + ", valorTotal="
-				+ valorTotal + ", dataVenda=" + dataVenda + ", status=" + status + "]";
+	public Long getId() {
+		return id;
+	}
+
+	@Override
+	public void setId(Long id) {
+		this.id = id;
 	}
 	
 	

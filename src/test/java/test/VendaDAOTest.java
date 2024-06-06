@@ -6,6 +6,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.time.Instant;
 
 import org.junit.Before;
@@ -21,6 +22,9 @@ import domain.Cliente;
 import domain.Produto;
 import domain.Venda;
 import domain.Venda.Status;
+import exception.DAOException;
+import exception.MaisDeUmRegistroException;
+import exception.TabelaException;
 import exception.TipoChaveNaoEncontradoException;
 
 public class VendaDAOTest {
@@ -43,14 +47,14 @@ private IVendaDAO vendaDao;
 	}
 	
 	@Before
-	public void init() throws TipoChaveNaoEncontradoException {
+	public void init() throws TipoChaveNaoEncontradoException, DAOException, SQLException {
 		this.cliente = cadastrarCliente();
 		this.produto = cadastrarProduto("A1", BigDecimal.TEN);
 	}
 
 	
 	@Test
-	public void pesquisar() throws TipoChaveNaoEncontradoException {
+	public void pesquisar() throws TipoChaveNaoEncontradoException, DAOException, SQLException, MaisDeUmRegistroException, TabelaException {
 		Venda venda = criarVenda("A1");
 		Boolean retorno = vendaDao.cadastrar(venda);
 		assertTrue(retorno);
@@ -60,7 +64,7 @@ private IVendaDAO vendaDao;
 	}
 	
 	@Test
-	public void salvar() throws TipoChaveNaoEncontradoException {
+	public void salvar() throws TipoChaveNaoEncontradoException, DAOException, SQLException {
 		Venda venda = criarVenda("A2");
 		Boolean retorno = vendaDao.cadastrar(venda);
 		assertTrue(retorno);
@@ -70,7 +74,7 @@ private IVendaDAO vendaDao;
 	
 	
 	@Test
-	public void cancelarVenda() throws TipoChaveNaoEncontradoException {
+	public void cancelarVenda() throws TipoChaveNaoEncontradoException, DAOException, SQLException, MaisDeUmRegistroException, TabelaException {
 		String codigoVenda = "A3";
 		Venda venda = criarVenda(codigoVenda);
 		Boolean retorno = vendaDao.cadastrar(venda);
@@ -87,7 +91,7 @@ private IVendaDAO vendaDao;
 	}
 	
 	@Test
-	public void adicionarMaisProdutosDoMesmo() throws TipoChaveNaoEncontradoException {
+	public void adicionarMaisProdutosDoMesmo() throws TipoChaveNaoEncontradoException, DAOException, SQLException, MaisDeUmRegistroException, TabelaException {
 		String codigoVenda = "A4";
 		Venda venda = criarVenda(codigoVenda);
 		Boolean retorno = vendaDao.cadastrar(venda);
@@ -104,7 +108,7 @@ private IVendaDAO vendaDao;
 	} 
 	
 	@Test
-	public void adicionarMaisProdutosDiferentes() throws TipoChaveNaoEncontradoException {
+	public void adicionarMaisProdutosDiferentes() throws TipoChaveNaoEncontradoException, DAOException, SQLException, MaisDeUmRegistroException, TabelaException {
 		String codigoVenda = "A5";
 		Venda venda = criarVenda(codigoVenda);
 		Boolean retorno = vendaDao.cadastrar(venda);
@@ -125,7 +129,7 @@ private IVendaDAO vendaDao;
 	} 
 	
 	@Test
-	public void salvarProdutoExistente() throws TipoChaveNaoEncontradoException {
+	public void salvarProdutoExistente() throws TipoChaveNaoEncontradoException, DAOException, SQLException {
 		Venda venda = criarVenda("A6");
 		Boolean retorno = vendaDao.cadastrar(venda);
 		assertTrue(retorno);
@@ -136,7 +140,7 @@ private IVendaDAO vendaDao;
 	} 
 	
 	@Test
-	public void removerProduto() throws TipoChaveNaoEncontradoException {
+	public void removerProduto() throws TipoChaveNaoEncontradoException, DAOException, SQLException, MaisDeUmRegistroException, TabelaException {
 		String codigoVenda = "A7";
 		Venda venda = criarVenda(codigoVenda);
 		Boolean retorno = vendaDao.cadastrar(venda);
@@ -161,7 +165,7 @@ private IVendaDAO vendaDao;
 	} 
 	
 	@Test
-	public void removerApenasUmProduto() throws TipoChaveNaoEncontradoException {
+	public void removerApenasUmProduto() throws TipoChaveNaoEncontradoException, DAOException, SQLException, MaisDeUmRegistroException, TabelaException {
 		String codigoVenda = "A8";
 		Venda venda = criarVenda(codigoVenda);
 		Boolean retorno = vendaDao.cadastrar(venda);
@@ -186,7 +190,7 @@ private IVendaDAO vendaDao;
 	} 
 	
 	@Test
-	public void removerTodosProdutos() throws TipoChaveNaoEncontradoException {
+	public void removerTodosProdutos() throws TipoChaveNaoEncontradoException, DAOException, SQLException, MaisDeUmRegistroException, TabelaException {
 		String codigoVenda = "A9";
 		Venda venda = criarVenda(codigoVenda);
 		Boolean retorno = vendaDao.cadastrar(venda);
@@ -211,7 +215,7 @@ private IVendaDAO vendaDao;
 	} 
 	
 	@Test
-	public void finalizarVenda() throws TipoChaveNaoEncontradoException {
+	public void finalizarVenda() throws TipoChaveNaoEncontradoException, DAOException, SQLException, MaisDeUmRegistroException, TabelaException {
 		String codigoVenda = "A10";
 		Venda venda = criarVenda(codigoVenda);
 		Boolean retorno = vendaDao.cadastrar(venda);
@@ -227,7 +231,7 @@ private IVendaDAO vendaDao;
 	}
 	
 	@Test(expected = UnsupportedOperationException.class)
-	public void tentarAdicionarProdutosVendaFinalizada() throws TipoChaveNaoEncontradoException {
+	public void tentarAdicionarProdutosVendaFinalizada() throws TipoChaveNaoEncontradoException, DAOException, SQLException, MaisDeUmRegistroException, TabelaException {
 		String codigoVenda = "A11";
 		Venda venda = criarVenda(codigoVenda);
 		Boolean retorno = vendaDao.cadastrar(venda);
@@ -244,7 +248,7 @@ private IVendaDAO vendaDao;
 		
 	}
 
-	private Produto cadastrarProduto(String codigo, BigDecimal valor) throws TipoChaveNaoEncontradoException {
+	private Produto cadastrarProduto(String codigo, BigDecimal valor) throws TipoChaveNaoEncontradoException, DAOException, SQLException {
 		Produto produto = new Produto();
 		produto.setCodigo(codigo);
 		produto.setDescricao("Produto 1");
@@ -254,15 +258,15 @@ private IVendaDAO vendaDao;
 		return produto;
 	}
 
-	private Cliente cadastrarCliente() throws TipoChaveNaoEncontradoException {
-		Cliente cliente = new Cliente();
-		cliente.setCpf(12312312312L);
-		cliente.setNome("Rodrigo");
-		cliente.setCidade("São Paulo");
-		cliente.setRua("End");
-		cliente.setEstado("SP");
-		cliente.setNum(10);
-		cliente.setTel(1199999999L);
+	private Cliente cadastrarCliente() throws TipoChaveNaoEncontradoException, DAOException, SQLException {
+		cliente = new Cliente();
+		cliente.setNome("Douglas");
+		cliente.setCpf(1234567890L);
+		cliente.setTel(51999999999L);
+		cliente.setRua("Bento Gonçalves");
+		cliente.setNum(2L);
+		cliente.setCidade("Porto Alegre");
+		cliente.setEstado("RS");
 		clienteDao.cadastrar(cliente);
 		return cliente;
 	}

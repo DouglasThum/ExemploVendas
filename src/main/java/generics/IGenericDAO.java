@@ -15,7 +15,7 @@ public interface IGenericDAO <T extends Persistente, E extends Serializable> {
 	
 	public Boolean cadastrar(T entity) throws TipoChaveNaoEncontradoException, DAOException, SQLException;
 	
-	public void excluir(E balor) throws MaisDeUmRegistroException, TabelaException, DAOException;
+	public void excluir(E valor) throws MaisDeUmRegistroException, TabelaException, DAOException, SQLException;
 	
 	public void alterar(T entity) throws TipoChaveNaoEncontradoException, DAOException, SQLException;
 	

@@ -49,7 +49,7 @@ public class ProdutoServiceTest {
 	}
 	
 	@Test
-	public void excluirProduto() throws MaisDeUmRegistroException, TabelaException, DAOException {
+	public void excluirProduto() throws MaisDeUmRegistroException, TabelaException, DAOException, SQLException {
 		service.excluir(produto.getCodigo());
 	}
 	

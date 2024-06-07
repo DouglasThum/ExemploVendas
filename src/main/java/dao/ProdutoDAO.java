@@ -19,17 +19,25 @@ public class ProdutoDAO extends GenericDAO<Produto, String> implements IProdutoD
 	}
 
 	@Override
-	public void atualizarDados(Produto entityNovo, Produto entityCadastrado) {
-		entityCadastrado.setCodigo(entityNovo.getCodigo());
-		entityCadastrado.setNome(entityNovo.getNome());
-		entityCadastrado.setDescricao(entityNovo.getDescricao());
-		entityCadastrado.setValor(entityNovo.getValor());
-	}
-
-	@Override
 	public String getQueryInsercao() {
-		// TODO Auto-generated method stub
-		return null;
+		StringBuilder sb = new StringBuilder();
+		sb.append("INSERT INTO TB_PRODUTO ");
+		sb.append("(ID, CODIGO, NOME, DESCRICAO, VALOR) ");
+		sb.append("VALUES (nextval('sq_produto'),?,?,?,?)");
+		return sb.toString();
+	}
+	
+	@Override
+	protected void setParametrosQueryInsercao(PreparedStatement stmInsert, Produto entity) throws SQLException {
+		stmInsert.setString(1, entity.getCodigo());
+		stmInsert.setString(2, entity.getNome());
+		stmInsert.setString(3, entity.getDescricao());
+		stmInsert.setBigDecimal(4, entity.getValor());	
+	}
+	
+	@Override
+	protected void setParametrosQuerySelect(PreparedStatement stmSelect, String valor) throws SQLException {
+		stmSelect.setString(1, valor);
 	}
 
 	@Override
@@ -45,12 +53,6 @@ public class ProdutoDAO extends GenericDAO<Produto, String> implements IProdutoD
 	}
 
 	@Override
-	protected void setParametrosQueryInsercao(PreparedStatement stmInsert, Produto entity) throws SQLException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	protected void setParametrosQueryExclusao(PreparedStatement stmDelete, String valor) throws SQLException {
 		// TODO Auto-generated method stub
 		
@@ -58,12 +60,6 @@ public class ProdutoDAO extends GenericDAO<Produto, String> implements IProdutoD
 
 	@Override
 	protected void setParametrosQueryAtualizacao(PreparedStatement stmUpdate, Produto entity) throws SQLException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	protected void setParametrosQuerySelect(PreparedStatement stmSelect, String valor) throws SQLException {
 		// TODO Auto-generated method stub
 		
 	}

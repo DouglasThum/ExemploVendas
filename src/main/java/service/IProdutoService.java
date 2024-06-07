@@ -14,7 +14,7 @@ public interface IProdutoService {
 
 	Produto buscarPorCod(String cod) throws MaisDeUmRegistroException, TabelaException, DAOException, SQLException;
 
-	void excluir(String cod) throws MaisDeUmRegistroException, TabelaException, DAOException;
+	void excluir(String cod) throws MaisDeUmRegistroException, TabelaException, DAOException, SQLException;
 
 	void alterar(Produto produto) throws TipoChaveNaoEncontradoException, DAOException, SQLException;
 }

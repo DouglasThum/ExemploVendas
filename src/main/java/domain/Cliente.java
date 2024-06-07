@@ -20,8 +20,8 @@ public class Cliente implements Persistente{
 	@ColunaTabela(dbName = "tel", setJavaName = "setTel")
 	private Long tel;
 	
-	@ColunaTabela(dbName = "rua", setJavaName = "setRua")
-	private String rua;
+	@ColunaTabela(dbName = "endereco", setJavaName = "setEndereco")
+	private String endereco;
 	
 	@ColunaTabela(dbName = "num", setJavaName = "setNum")
 	private Long num;
@@ -35,13 +35,13 @@ public class Cliente implements Persistente{
 	public Cliente() {
 	}
 
-	public Cliente(Long id, String nome, Long cpf, Long tel, String rua, Long num, String cidade, String estado) {
+	public Cliente(Long id, String nome, Long cpf, Long tel, String endereco, Long num, String cidade, String estado) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.cpf = cpf;
 		this.tel = tel;
-		this.rua = rua;
+		this.endereco = endereco;
 		this.num = num;
 		this.cidade = cidade;
 		this.estado = estado;
@@ -71,12 +71,12 @@ public class Cliente implements Persistente{
 		this.tel = tel;
 	}
 
-	public String getRua() {
-		return rua;
+	public String getEndereco() {
+		return endereco;
 	}
 
-	public void setRua(String rua) {
-		this.rua = rua;
+	public void setEndereco(String endereco) {
+		this.endereco = endereco;
 	}
 
 	public Long getNum() {

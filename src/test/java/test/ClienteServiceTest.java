@@ -32,7 +32,7 @@ public class ClienteServiceTest {
 		cliente.setNome("Douglas");
 		cliente.setCpf(1234567890L);
 		cliente.setTel(51999999999L);
-		cliente.setRua("Bento Gonçalves");
+		cliente.setEndereco("Bento Gonçalves");
 		cliente.setNum(2L);
 		cliente.setCidade("Porto Alegre");
 		cliente.setEstado("RS");
@@ -51,7 +51,7 @@ public class ClienteServiceTest {
 	}
 	
 	@Test
-	public void excluirCliente() throws MaisDeUmRegistroException, TabelaException, DAOException {
+	public void excluirCliente() throws MaisDeUmRegistroException, TabelaException, DAOException, SQLException {
 		service.excluir(cliente.getCpf());
 	}
 	

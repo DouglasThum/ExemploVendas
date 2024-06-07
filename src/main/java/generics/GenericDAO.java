@@ -30,8 +30,6 @@ public abstract class GenericDAO<T extends Persistente, E extends Serializable> 
 	
 	public abstract Class<T> getClassType();
 	
-	public abstract void atualizarDados(T entity, T entityCadastrado);
-	
 	public abstract String getQueryInsercao();
 	
 	public abstract String getQueryExclusao();
@@ -104,7 +102,7 @@ public abstract class GenericDAO<T extends Persistente, E extends Serializable> 
 	public T consultar(E valor) throws MaisDeUmRegistroException, TabelaException, DAOException, SQLException {
 		try {
 			validarMaisDeUmRegistro(valor);
-			Connection connection = null;
+			Connection connection = getConnection();
 			PreparedStatement stm = connection.prepareStatement("SELECT * FROM " + getTableName() + " WHERE " + getNomeCampoChave(getClassType()) + " = ?");
 			setParametrosQuerySelect(stm, valor);
 			ResultSet rs = stm.executeQuery();
@@ -136,15 +134,17 @@ public abstract class GenericDAO<T extends Persistente, E extends Serializable> 
 	}
 
 	@Override
-	public void excluir(E codigo) throws DAOException {
+	public void excluir(E valor) throws DAOException, SQLException {
 		Connection connection = getConnection();
 		PreparedStatement stm = null; 
 		try {
 			stm = connection.prepareStatement(getQueryExclusao());
-			setParametrosQueryExclusao(stm, codigo);
-			Integer rowsAffected = stm.executeUpdate();
+			setParametrosQueryExclusao(stm, valor);
+			stm.executeUpdate();
 		} catch (SQLException e) {
 			throw new DAOException("ERRO EXCLUINDO OBJETO ", e);
+		} finally {
+			closeConnection(connection, stm, null);
 		}
 	}
 
@@ -155,9 +155,9 @@ public abstract class GenericDAO<T extends Persistente, E extends Serializable> 
 		try {
 			stm = connection.prepareStatement(getQueryAtualizacao());
 			setParametrosQueryAtualizacao(stm, entity);
-			Integer rowsAffected = stm.executeUpdate();
+			stm.executeUpdate();
 		} catch (SQLException e) {
-			throw new DAOException("ERRO EXCLUINDO OBJETO ", e);
+			throw new DAOException("ERRO ALTERANDO OBJETO ", e);
 		}
 	}
 
@@ -165,7 +165,7 @@ public abstract class GenericDAO<T extends Persistente, E extends Serializable> 
 	public Collection<T> buscarTodos() throws DAOException {
 		List<T> list = new ArrayList<>();
 		try {
-			Connection connection = null;
+			Connection connection = getConnection();
 			PreparedStatement stm = connection.prepareStatement("SELECT * FROM " + getTableName());
 			ResultSet rs = stm.executeQuery();
 			while (rs.next()) {
@@ -202,7 +202,7 @@ public abstract class GenericDAO<T extends Persistente, E extends Serializable> 
 		ResultSet rs = null;
 		Long count = null;
 		try {
-			stm = connection.prepareStatement("SELECT count(*) FROM " + getTableName() + " WHERE " + getNomeCampoChave(getClassType()) + " ?");
+			stm = connection.prepareStatement("SELECT count(*) FROM " + getTableName() + " WHERE " + getNomeCampoChave(getClassType()) + " = ?");
 			setParametrosQuerySelect(stm, valor);
 			rs = stm.executeQuery();
 			if (rs.next()) {

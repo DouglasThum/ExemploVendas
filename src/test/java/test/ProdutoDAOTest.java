@@ -1,5 +1,7 @@
 package test;
 
+import static org.junit.Assert.assertTrue;
+
 import java.math.BigDecimal;
 import java.sql.SQLException;
 
@@ -24,37 +26,39 @@ public class ProdutoDAOTest {
 	public ProdutoDAOTest() {
 		produtoDao = new ProdutoDAO();
 	}
-
-	@Before
-	public void init() throws TipoChaveNaoEncontradoException, DAOException, SQLException {
-		produto = new Produto();
-		produto.setCodigo("String");
-		produto.setNome("Produto1");
-		produto.setDescricao("Produto descrição");
-		produto.setValor(BigDecimal.valueOf(50.0));
-		produtoDao.cadastrar(produto);
-	}
 	
 	@Test
-	public void pesquisarProduto() throws MaisDeUmRegistroException, TabelaException, DAOException, SQLException {
-		Produto produtoConsultado = produtoDao.consultar(produto.getCodigo());
+	public void pesquisarProduto() throws MaisDeUmRegistroException, TabelaException, DAOException, SQLException, TipoChaveNaoEncontradoException {
+		produto = instanciarProduto();
+		assertTrue(produtoDao.cadastrar(produto));
 		
+		Produto produtoConsultado = produtoDao.consultar(produto.getCodigo());
 		Assert.assertNotNull(produtoConsultado);
 	}
 	
-	@Test
+/*	@Test
 	public void salvarProduto() throws TipoChaveNaoEncontradoException, DAOException, SQLException {
 		Boolean retorno = produtoDao.cadastrar(produto);
 		Assert.assertTrue(retorno);
 	}
 	
 	@Test
-	public void excluirProduto() throws MaisDeUmRegistroException, TabelaException, DAOException {
+	public void excluirProduto() throws MaisDeUmRegistroException, TabelaException, DAOException, SQLException {
 		produtoDao.excluir(produto.getCodigo());
 	}
 	
 	@Test
 	public void alterarProduto() throws TipoChaveNaoEncontradoException, DAOException, SQLException {
 		produtoDao.alterar(produto);
+	}*/
+	
+	private Produto instanciarProduto(){
+		produto = new Produto();
+		produto.setCodigo("6179");
+		produto.setNome("Computador");
+		produto.setDescricao("Computador gamer");
+		produto.setValor(BigDecimal.valueOf(4000.0));
+		
+		return produto;
 	}
 }

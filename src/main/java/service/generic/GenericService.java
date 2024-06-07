@@ -24,7 +24,7 @@ public abstract class GenericService<T extends Persistente, E extends Serializab
 	}
 
 	@Override
-	public void excluir(E valor) throws MaisDeUmRegistroException, TabelaException, DAOException {
+	public void excluir(E valor) throws MaisDeUmRegistroException, TabelaException, DAOException, SQLException {
 		this.dao.excluir(valor);		
 	}
 

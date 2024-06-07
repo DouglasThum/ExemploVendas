@@ -18,21 +18,10 @@ public class ClienteDAO extends GenericDAO<Cliente, Long> implements IClienteDAO
 	}
 
 	@Override
-	public void atualizarDados(Cliente entityNovo, Cliente entityCadastrado) {
-		entityCadastrado.setCpf(entityNovo.getCpf());
-		entityCadastrado.setNome(entityNovo.getNome());
-		entityCadastrado.setTel(entityNovo.getTel());
-		entityCadastrado.setRua(entityNovo.getRua());
-		entityCadastrado.setNum(entityNovo.getNum());
-		entityCadastrado.setCidade(entityNovo.getCidade());
-		entityCadastrado.setEstado(entityNovo.getEstado());
-	}
-
-	@Override
 	public String getQueryInsercao() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("INSERT INTO TB_CLIENTE ");
-		sb.append("(ID, NOME, CPF, TEL, RUA, NUMERO, CIDADE, ESTADO) ");
+		sb.append("(ID, NOME, CPF, TEL, ENDERECO, NUM, CIDADE, ESTADO) ");
 		sb.append("VALUES (nextval('sq_cliente'),?,?,?,?,?,?,?)");
 		return sb.toString();
 	}
@@ -42,7 +31,7 @@ public class ClienteDAO extends GenericDAO<Cliente, Long> implements IClienteDAO
 		stmInsert.setString(1, entity.getNome());
 		stmInsert.setLong(2, entity.getCpf());
 		stmInsert.setLong(3, entity.getTel());
-		stmInsert.setString(4, entity.getRua());
+		stmInsert.setString(4, entity.getEndereco());
 		stmInsert.setLong(5, entity.getNum());
 		stmInsert.setString(6, entity.getCidade());
 		stmInsert.setString(7, entity.getEstado());
@@ -50,10 +39,7 @@ public class ClienteDAO extends GenericDAO<Cliente, Long> implements IClienteDAO
 
 	@Override
 	public String getQueryExclusao() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("DELETE FROM TB_CLIENTE ");
-		sb.append("WHERE ID = ?");
-		return sb.toString();
+		return "DELETE FROM TB_CLIENTE WHERE CPF = ?";
 	}
 	
 	@Override
@@ -65,14 +51,25 @@ public class ClienteDAO extends GenericDAO<Cliente, Long> implements IClienteDAO
 	@Override
 	public String getQueryAtualizacao() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("UPDATE FROM TB_CLIENTE ");
-		sb.append("WHERE ID = ?");
+		sb.append("UPDATE TB_CLIENTE ");
+		sb.append("SET NOME = ?,");
+		sb.append("TEL = ?,");
+		sb.append("ENDERECO = ?,");
+		sb.append("NUM = ?,");
+		sb.append("CIDADE = ?,");
+		sb.append("ESTADO = ?");
+		sb.append(" WHERE CPF = ?");
 		return sb.toString();
 	}
 
 	@Override
 	protected void setParametrosQueryAtualizacao(PreparedStatement stmUpdate, Cliente entity) throws SQLException {
-		stmUpdate.setLong(1, entity.getCpf());		
+		stmUpdate.setString(1, entity.getNome());
+		stmUpdate.setLong(2, entity.getTel());	
+		stmUpdate.setString(3, entity.getEndereco());
+		stmUpdate.setLong(4, entity.getNum());
+		stmUpdate.setString(5, entity.getCidade());
+		stmUpdate.setString(6, entity.getEstado());
 	}
 
 	@Override

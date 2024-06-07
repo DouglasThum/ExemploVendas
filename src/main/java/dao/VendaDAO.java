@@ -23,15 +23,6 @@ public class VendaDAO extends GenericDAO<Venda, String> implements IVendaDAO {
 	}
 
 	@Override
-	public void atualizarDados(Venda entityNovo, Venda entityCadastrado) {
-		entityCadastrado.setCodigo(entityNovo.getCodigo());
-		entityCadastrado.setCliente(entityNovo.getCliente());
-		entityCadastrado.setDataVenda(entityNovo.getDataVenda());
-		entityCadastrado.setValorTotal(entityNovo.getValorTotal());
-		entityCadastrado.setStatus(entityNovo.getStatus());
-	}
-	
-	@Override
 	public void excluir(String valor) {
 		throw new UnsupportedOperationException("OPERAÇÃO NÃO PERMITIDA");
 	}

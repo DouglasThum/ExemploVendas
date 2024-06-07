@@ -14,7 +14,7 @@ public interface IClienteService {
 
 	Cliente buscarPorCpf(Long cpf) throws MaisDeUmRegistroException, TabelaException, DAOException, SQLException;
 
-	void excluir(Long cpf) throws MaisDeUmRegistroException, TabelaException, DAOException;
+	void excluir(Long cpf) throws MaisDeUmRegistroException, TabelaException, DAOException, SQLException;
 
 	void alterar(Cliente cliente) throws TipoChaveNaoEncontradoException, DAOException, SQLException;
 

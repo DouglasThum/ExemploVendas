@@ -42,25 +42,30 @@ public class ProdutoDAO extends GenericDAO<Produto, String> implements IProdutoD
 
 	@Override
 	public String getQueryExclusao() {
-		// TODO Auto-generated method stub
-		return null;
+		return "DELETE FROM TB_PRODUTO WHERE CODIGO = ?";
+	}
+	
+	@Override
+	protected void setParametrosQueryExclusao(PreparedStatement stmDelete, String valor) throws SQLException {
+		stmDelete.setString(1, valor);		
 	}
 
 	@Override
 	public String getQueryAtualizacao() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	protected void setParametrosQueryExclusao(PreparedStatement stmDelete, String valor) throws SQLException {
-		// TODO Auto-generated method stub
-		
+		StringBuilder sb = new StringBuilder();
+		sb.append("UPDATE TB_PRODUTO ");
+		sb.append("SET NOME = ?, ");
+		sb.append("DESCRICAO = ?, ");
+		sb.append("VALOR = ? ");
+		sb.append("WHERE CODIGO = ?");
+		return sb.toString();
 	}
 
 	@Override
 	protected void setParametrosQueryAtualizacao(PreparedStatement stmUpdate, Produto entity) throws SQLException {
-		// TODO Auto-generated method stub
-		
+		stmUpdate.setString(1, entity.getNome());
+		stmUpdate.setString(2, entity.getDescricao());
+		stmUpdate.setBigDecimal(3, entity.getValor());	
+		stmUpdate.setString(4, entity.getCodigo());
 	}
 }

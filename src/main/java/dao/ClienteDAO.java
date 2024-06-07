@@ -52,13 +52,13 @@ public class ClienteDAO extends GenericDAO<Cliente, Long> implements IClienteDAO
 	public String getQueryAtualizacao() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("UPDATE TB_CLIENTE ");
-		sb.append("SET NOME = ?,");
-		sb.append("TEL = ?,");
-		sb.append("ENDERECO = ?,");
-		sb.append("NUM = ?,");
-		sb.append("CIDADE = ?,");
-		sb.append("ESTADO = ?");
-		sb.append(" WHERE CPF = ?");
+		sb.append("SET NOME = ?, ");
+		sb.append("TEL = ?, ");
+		sb.append("ENDERECO = ?, ");
+		sb.append("NUM = ?, ");
+		sb.append("CIDADE = ?, ");
+		sb.append("ESTADO = ? ");
+		sb.append("WHERE CPF = ?");
 		return sb.toString();
 	}
 
@@ -70,6 +70,7 @@ public class ClienteDAO extends GenericDAO<Cliente, Long> implements IClienteDAO
 		stmUpdate.setLong(4, entity.getNum());
 		stmUpdate.setString(5, entity.getCidade());
 		stmUpdate.setString(6, entity.getEstado());
+		stmUpdate.setLong(7, entity.getCpf());
 	}
 
 	@Override

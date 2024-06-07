@@ -46,7 +46,7 @@ public class ClienteDAOTest {
 	@Test
 	public void pesquisarCliente() throws TipoChaveNaoEncontradoException, DAOException, SQLException, MaisDeUmRegistroException, TabelaException {
 		cliente = instanciarCliente();
-		clienteDao.cadastrar(cliente);
+		assertTrue(clienteDao.cadastrar(cliente));
 		
 		Cliente clienteConsultado = clienteDao.consultar(cliente.getCpf());
 		assertNotNull(clienteConsultado);
@@ -57,8 +57,7 @@ public class ClienteDAOTest {
 	@Test
 	public void salvarCliente() throws TipoChaveNaoEncontradoException, DAOException, SQLException, MaisDeUmRegistroException, TabelaException {
 		cliente = instanciarCliente();
-		Boolean retorno = clienteDao.cadastrar(cliente);
-		assertTrue(retorno);
+		assertTrue(clienteDao.cadastrar(cliente));
 		
 		Cliente clienteConsultado = clienteDao.consultar(cliente.getCpf());
 		assertNotNull(clienteConsultado);
@@ -69,8 +68,7 @@ public class ClienteDAOTest {
 	@Test
 	public void alterarCliente() throws TipoChaveNaoEncontradoException, DAOException, SQLException, MaisDeUmRegistroException, TabelaException {
 		cliente = instanciarCliente();
-		Boolean retorno = clienteDao.cadastrar(cliente);
-		assertTrue(retorno);
+		assertTrue(clienteDao.cadastrar(cliente));
 		
 		Cliente clienteConsultado = clienteDao.consultar(cliente.getCpf());
 		assertNotNull(clienteConsultado);
@@ -91,8 +89,7 @@ public class ClienteDAOTest {
 	@Test
 	public void excluirCliente() throws MaisDeUmRegistroException, TabelaException, DAOException, SQLException, TipoChaveNaoEncontradoException {
 		cliente = instanciarCliente();
-		Boolean retorno = clienteDao.cadastrar(cliente);
-		assertTrue(retorno);
+		assertTrue(clienteDao.cadastrar(cliente));
 				
 		Cliente clienteConsultado = clienteDao.consultar(cliente.getCpf());
 		assertNotNull(clienteConsultado);

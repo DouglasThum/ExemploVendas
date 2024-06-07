@@ -10,7 +10,7 @@ public class Cliente implements Persistente{
 	@ColunaTabela(dbName = "id", setJavaName = "setId")
 	private Long id;
 	
-	@ColunaTabela(dbName = "id", setJavaName = "setNome")
+	@ColunaTabela(dbName = "nome", setJavaName = "setNome")
 	private String nome;
 	
 	@TipoChave("getCpf")

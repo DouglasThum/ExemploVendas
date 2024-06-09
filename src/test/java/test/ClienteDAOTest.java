@@ -109,6 +109,7 @@ public class ClienteDAOTest {
 		cliente.setNum(2L);
 		cliente.setCidade("Porto Alegre");
 		cliente.setEstado("RS");
+		cliente.setIdade(25L);
 		
 		return cliente;
 	}

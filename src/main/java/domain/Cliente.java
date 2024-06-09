@@ -32,11 +32,14 @@ public class Cliente implements Persistente{
 	
 	@ColunaTabela(dbName = "estado", setJavaName = "setEstado")
 	private String estado;
-
+	
+	@ColunaTabela(dbName = "idade", setJavaName = "setIdade")
+	private Long idade;
+	
 	public Cliente() {
 	}
 
-	public Cliente(Long id, String nome, Long cpf, Long tel, String endereco, Long num, String cidade, String estado) {
+	public Cliente(Long id, String nome, Long cpf, Long tel, String endereco, Long num, String cidade, String estado, Long idade) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -46,6 +49,17 @@ public class Cliente implements Persistente{
 		this.num = num;
 		this.cidade = cidade;
 		this.estado = estado;
+		this.idade = idade;
+	}
+	
+	@Override
+	public Long getId() {
+		return id;
+	}
+
+	@Override
+	public void setId(Long id) {
+		this.id = id;		
 	}
 
 	public String getNome() {
@@ -104,13 +118,11 @@ public class Cliente implements Persistente{
 		this.estado = estado;
 	}
 
-	@Override
-	public Long getId() {
-		return id;
+	public Long getIdade() {
+		return idade;
 	}
 
-	@Override
-	public void setId(Long id) {
-		this.id = id;		
+	public void setIdade(Long idade) {
+		this.idade = idade;
 	}
 }

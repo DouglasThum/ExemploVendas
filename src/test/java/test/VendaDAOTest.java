@@ -268,6 +268,7 @@ private IVendaDAO vendaDao;
 		produto.setDescricao("Produto 1");
 		produto.setNome("Produto 1");
 		produto.setValor(valor);
+		produto.setCategoria("Eletrônico");
 		produtoDao.cadastrar(produto);
 		return produto;
 	}
@@ -281,6 +282,7 @@ private IVendaDAO vendaDao;
 		cliente.setNum(2L);
 		cliente.setCidade("Porto Alegre");
 		cliente.setEstado("RS");
+		cliente.setIdade(25L);
 		clienteDao.cadastrar(cliente);
 		return cliente;
 	}

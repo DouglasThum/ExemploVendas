@@ -101,6 +101,7 @@ public class ProdutoDAOTest {
 		produto.setNome("Computador");
 		produto.setDescricao("Computador gamer");
 		produto.setValor(BigDecimal.valueOf(4000.0));
+		produto.setCategoria("Eletrônico");
 		
 		return produto;
 	}

@@ -8,7 +8,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import dao.IProdutoDAO;
-import dao.ProdutoDAOMock;
 import domain.Produto;
 import exception.DAOException;
 import exception.MaisDeUmRegistroException;
@@ -16,6 +15,7 @@ import exception.TabelaException;
 import exception.TipoChaveNaoEncontradoException;
 import service.ProdutoService;
 import service.generic.IGenericService;
+import dao.ProdutoDAOMock;
 
 public class ProdutoServiceTest {
 	
@@ -34,6 +34,7 @@ public class ProdutoServiceTest {
 		produto.setNome("Produto1");
 		produto.setDescricao("Produto descrição");
 		produto.setValor(BigDecimal.valueOf(50.0));
+		produto.setCategoria("Eletrônico");
 	}
 	
 	@Test
@@ -55,9 +56,9 @@ public class ProdutoServiceTest {
 	
 	@Test
 	public void alterarProduto() throws TipoChaveNaoEncontradoException, DAOException, SQLException {
-		produto.setNome("Douglas Oliveira");
+		produto.setNome("Novo Produto");
 		service.alterar(produto);
 		
-		Assert.assertEquals("Douglas Oliveira", produto.getNome());
+		Assert.assertEquals("Novo Produto", produto.getNome());
 	}
 }

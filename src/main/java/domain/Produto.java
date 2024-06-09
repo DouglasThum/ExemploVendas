@@ -26,16 +26,30 @@ public class Produto implements Persistente {
 	@ColunaTabela(dbName = "valor", setJavaName = "setValor")
 	private BigDecimal valor;
 	
-	public Produto(Long id, String codigo, String nome, String descricao, BigDecimal valor) {
+	@ColunaTabela(dbName = "categoria", setJavaName = "setCategoria")
+	private String categoria;
+	
+	public Produto(Long id, String codigo, String nome, String descricao, BigDecimal valor, String categoria) {
 		super();
 		this.id = id;
 		this.codigo = codigo;
 		this.nome = nome;
 		this.descricao = descricao;
 		this.valor = valor;
+		this.categoria = categoria;
 	}
 	
 	public Produto() {
+	}
+	
+	@Override
+	public Long getId() {
+		return id;
+	}
+
+	@Override
+	public void setId(Long id) {
+		this.id = id;		
 	}
 	
 	public String getCodigo() {
@@ -70,13 +84,11 @@ public class Produto implements Persistente {
 		this.valor = valor;
 	}
 
-	@Override
-	public Long getId() {
-		return id;
+	public String getCategoria() {
+		return categoria;
 	}
 
-	@Override
-	public void setId(Long id) {
-		this.id = id;		
+	public void setCategoria(String categoria) {
+		this.categoria = categoria;
 	}
 }

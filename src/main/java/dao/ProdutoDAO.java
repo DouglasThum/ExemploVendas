@@ -22,8 +22,8 @@ public class ProdutoDAO extends GenericDAO<Produto, String> implements IProdutoD
 	public String getQueryInsercao() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("INSERT INTO TB_PRODUTO ");
-		sb.append("(ID, CODIGO, NOME, DESCRICAO, VALOR) ");
-		sb.append("VALUES (nextval('sq_produto'),?,?,?,?)");
+		sb.append("(ID, CODIGO, NOME, DESCRICAO, VALOR, CATEGORIA ) ");
+		sb.append("VALUES (nextval('sq_produto'),?,?,?,?,?)");
 		return sb.toString();
 	}
 	
@@ -32,7 +32,8 @@ public class ProdutoDAO extends GenericDAO<Produto, String> implements IProdutoD
 		stmInsert.setString(1, entity.getCodigo());
 		stmInsert.setString(2, entity.getNome());
 		stmInsert.setString(3, entity.getDescricao());
-		stmInsert.setBigDecimal(4, entity.getValor());	
+		stmInsert.setBigDecimal(4, entity.getValor());
+		stmInsert.setString(5, entity.getCategoria());
 	}
 	
 	@Override
@@ -56,7 +57,8 @@ public class ProdutoDAO extends GenericDAO<Produto, String> implements IProdutoD
 		sb.append("UPDATE TB_PRODUTO ");
 		sb.append("SET NOME = ?, ");
 		sb.append("DESCRICAO = ?, ");
-		sb.append("VALOR = ? ");
+		sb.append("VALOR = ?, ");
+		sb.append("CATEGORIA = ? ");
 		sb.append("WHERE CODIGO = ?");
 		return sb.toString();
 	}
@@ -66,6 +68,7 @@ public class ProdutoDAO extends GenericDAO<Produto, String> implements IProdutoD
 		stmUpdate.setString(1, entity.getNome());
 		stmUpdate.setString(2, entity.getDescricao());
 		stmUpdate.setBigDecimal(3, entity.getValor());	
-		stmUpdate.setString(4, entity.getCodigo());
+		stmUpdate.setString(4, entity.getCategoria());
+		stmUpdate.setString(5, entity.getCodigo());
 	}
 }

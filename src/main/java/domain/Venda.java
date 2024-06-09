@@ -176,6 +176,4 @@ public class Venda implements Persistente {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
-	
 }

@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
@@ -25,6 +26,39 @@ public class VendaDAO extends GenericDAO<Venda, String> implements IVendaDAO {
 		return Venda.class;
 	}
 	
+	@Override
+	public Boolean cadastrar(Venda entity) throws TipoChaveNaoEncontradoException, DAOException, SQLException {
+		Connection connection = null;
+    	PreparedStatement stm = null;
+    	try {
+    		connection = getConnection();
+			stm = connection.prepareStatement(getQueryInsercao(), Statement.RETURN_GENERATED_KEYS);
+			setParametrosQueryInsercao(stm, entity);
+			int rowsAffected = stm.executeUpdate();
+
+			if(rowsAffected > 0) {
+				try (ResultSet rs = stm.getGeneratedKeys()){
+					if (rs.next()) {
+						entity.setId(rs.getLong(1));
+					}
+				}
+				
+				for (ProdutoQuantidade prod : entity.getProdutos()) {
+					stm = connection.prepareStatement(getQueryInsercaoProdQuant());
+					setParametrosQueryInsercaoProdQuant(stm, entity, prod);
+					rowsAffected = stm.executeUpdate();
+				}	
+				return true;
+			}
+			
+		} catch (SQLException e) {
+			throw new DAOException("ERRO CADASTRANDO OBJETO ", e);
+		} finally {
+			closeConnection(connection, stm, null);
+		}
+		return false;
+	}
+
 	@Override
 	public void finalizarVenda(Venda venda) throws TipoChaveNaoEncontradoException, DAOException, SQLException {
 		Connection connection = null;
@@ -48,7 +82,7 @@ public class VendaDAO extends GenericDAO<Venda, String> implements IVendaDAO {
 		Connection connection = null;
 		PreparedStatement stm = null;
 		try {
-			String sql = "UPDATE FROM TB_VENDA SET STATUS_VENDA = ? WHERE ID = ?";
+			String sql = "UPDATE TB_VENDA SET STATUS_VENDA = ? WHERE ID = ?";
 			connection = getConnection();
 			stm = connection.prepareStatement(sql);
 			stm.setString(1, Status.CANCELADA.name());
@@ -103,7 +137,7 @@ public class VendaDAO extends GenericDAO<Venda, String> implements IVendaDAO {
 		StringBuilder sb = new StringBuilder();
 		sb.append("INSERT INTO TB_VENDA ");
 		sb.append("(ID, CODIGO, ID_CLIENTE_FK, VALOR_TOTAL, DATA_VENDA, STATUS_VENDA) ");
-		sb.append("VALUES (nextval('sq_venda'), ?, ?, ?, ?, ?, ?)");
+		sb.append("VALUES (nextval('sq_venda'), ?, ?, ?, ?, ?)");
 		return sb.toString();
 	}
 
@@ -144,7 +178,7 @@ public class VendaDAO extends GenericDAO<Venda, String> implements IVendaDAO {
 	private StringBuilder sqlBaseSelect() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("SELECT V.ID AS ID_VENDA, V.CODIGO, V.VALOR_TOTAL, V.DATA_VENDA, V.STATUS_VENDA, ");
-		sb.append("C.ID AS ID_CLIENTE, C.NOME, C.CPF, C.TEL, C.ENDERECO, C.NUMERO, C.CIDADE, C.ESTADO ");
+		sb.append("C.ID AS ID_CLIENTE, C.NOME, C.CPF, C.TEL, C.ENDERECO, C.NUM, C.CIDADE, C.ESTADO ");
 		sb.append("FROM TB_VENDA V ");
 		sb.append("INNER JOIN TB_CLIENTE C ON V.ID_CLIENTE_FK = C.ID ");
 		return sb;
@@ -175,5 +209,20 @@ public class VendaDAO extends GenericDAO<Venda, String> implements IVendaDAO {
 		} finally {
 			closeConnection(connection, stmProd, rsProd);
 		}
+	}
+	
+	private String getQueryInsercaoProdQuant() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("INSERT INTO TB_PRODUTO_QUANTIDADE ");
+		sb.append("(ID, ID_PRODUTO_FK, ID_VENDA_FK, QUANTIDADE, VALOR_TOTAL) ");
+		sb.append("VALUES (nextval('sq_produto_quantidade'), ?, ?, ?, ?)");
+		return sb.toString();
+	}
+
+	private void setParametrosQueryInsercaoProdQuant(PreparedStatement stm, Venda entity, ProdutoQuantidade prod) throws SQLException {
+		stm.setLong(1, prod.getProduto().getId());
+		stm.setLong(2, entity.getId());
+		stm.setInt(3, prod.getQuantidade());
+		stm.setBigDecimal(4, prod.getValorTotal());
 	}
 }

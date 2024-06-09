@@ -3,6 +3,7 @@ package domain;
 import annotation.ColunaTabela;
 import annotation.Tabela;
 import annotation.TipoChave;
+import dao.Persistente;
 
 @Tabela("TB_CLIENTE")
 public class Cliente implements Persistente{

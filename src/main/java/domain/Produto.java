@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import annotation.ColunaTabela;
 import annotation.Tabela;
 import annotation.TipoChave;
+import dao.Persistente;
 
 @Tabela("TB_PRODUTO")
 public class Produto implements Persistente {

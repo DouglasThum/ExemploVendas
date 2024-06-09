@@ -12,7 +12,7 @@ public interface IProdutoService {
 
 	Boolean cadastrar(Produto produto) throws TipoChaveNaoEncontradoException, DAOException, SQLException;
 
-	Produto buscarPorCod(String cod) throws MaisDeUmRegistroException, TabelaException, DAOException, SQLException;
+	Produto buscarPorCod(String cod) throws MaisDeUmRegistroException, TabelaException, DAOException, SQLException, TipoChaveNaoEncontradoException;
 
 	void excluir(String cod) throws MaisDeUmRegistroException, TabelaException, DAOException, SQLException;
 

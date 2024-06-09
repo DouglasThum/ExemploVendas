@@ -1,4 +1,4 @@
-package domain;
+package dao;
 
 public interface Persistente {
 	

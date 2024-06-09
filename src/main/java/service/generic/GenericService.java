@@ -3,7 +3,7 @@ package service.generic;
 import java.io.Serializable;
 import java.sql.SQLException;
 
-import domain.Persistente;
+import dao.Persistente;
 import exception.DAOException;
 import exception.MaisDeUmRegistroException;
 import exception.TabelaException;
@@ -34,7 +34,7 @@ public abstract class GenericService<T extends Persistente, E extends Serializab
 	}
 
 	@Override
-	public T consultar(E valor) throws MaisDeUmRegistroException, TabelaException, DAOException, SQLException {
+	public T consultar(E valor) throws MaisDeUmRegistroException, TabelaException, DAOException, SQLException, TipoChaveNaoEncontradoException {
 		return this.dao.consultar(valor);
 	}
 }

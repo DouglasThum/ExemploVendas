@@ -39,7 +39,7 @@ public class ClienteServiceTest {
 	}
 	
 	@Test
-	public void pesquisarCliente() throws MaisDeUmRegistroException, TabelaException, DAOException, SQLException {
+	public void pesquisarCliente() throws MaisDeUmRegistroException, TabelaException, DAOException, SQLException, TipoChaveNaoEncontradoException {
 		Cliente clienteConsultado = service.consultar(cliente.getCpf());
 		Assert.assertNotNull(clienteConsultado);
 	}

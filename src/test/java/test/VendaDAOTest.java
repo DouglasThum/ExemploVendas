@@ -8,7 +8,9 @@ import static org.junit.Assert.assertTrue;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.time.Instant;
+import java.util.Collection;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -52,6 +54,12 @@ private IVendaDAO vendaDao;
 		this.produto = cadastrarProduto("A1", BigDecimal.TEN);
 	}
 
+	@After 
+	public void end() throws DAOException, MaisDeUmRegistroException, TabelaException, SQLException {
+		excluirVendas();
+		excluirProdutos();
+		excluirClientes();
+	}
 	
 	@Test
 	public void pesquisar() throws TipoChaveNaoEncontradoException, DAOException, SQLException, MaisDeUmRegistroException, TabelaException {
@@ -279,5 +287,27 @@ private IVendaDAO vendaDao;
 		venda.setStatus(Status.INICIADA);
 		venda.adicionarProduto(this.produto, 2);
 		return venda;
+	}
+	
+	private void excluirVendas() throws DAOException, MaisDeUmRegistroException, TabelaException, SQLException {
+		Collection<Venda> lista = vendaDao.buscarTodos();
+		for (Venda venda : lista) {
+			vendaDao.excluir(venda.getCodigo());
+		}
+		
+	}
+	
+	private void excluirProdutos() throws MaisDeUmRegistroException, TabelaException, DAOException, SQLException {
+		Collection<Produto> lista = produtoDao.buscarTodos();
+		for (Produto prod : lista) {
+			produtoDao.excluir(prod.getCodigo());
+		}		
+	}
+	
+	private void excluirClientes() throws MaisDeUmRegistroException, TabelaException, DAOException, SQLException {
+		Collection<Cliente> lista = clienteDao.buscarTodos();
+		for (Cliente cliente : lista) {
+			clienteDao.excluir(cliente.getCpf());
+		}		
 	}
 }

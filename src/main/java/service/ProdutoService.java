@@ -4,6 +4,7 @@ import domain.Produto;
 import exception.DAOException;
 import exception.MaisDeUmRegistroException;
 import exception.TabelaException;
+import exception.TipoChaveNaoEncontradoException;
 
 import java.sql.SQLException;
 
@@ -17,7 +18,7 @@ public class ProdutoService extends GenericService<Produto, String> implements I
 	}
 
 	@Override
-	public Produto buscarPorCod(String cod) throws MaisDeUmRegistroException, TabelaException, DAOException, SQLException {
+	public Produto buscarPorCod(String cod) throws MaisDeUmRegistroException, TabelaException, DAOException, SQLException, TipoChaveNaoEncontradoException {
 		return this.dao.consultar(cod);
 	}
 

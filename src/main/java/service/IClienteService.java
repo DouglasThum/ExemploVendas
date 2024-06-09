@@ -12,7 +12,7 @@ public interface IClienteService {
 
 	Boolean cadastrar(Cliente cliente) throws TipoChaveNaoEncontradoException, DAOException, SQLException;
 
-	Cliente buscarPorCpf(Long cpf) throws MaisDeUmRegistroException, TabelaException, DAOException, SQLException;
+	Cliente buscarPorCpf(Long cpf) throws MaisDeUmRegistroException, TabelaException, DAOException, SQLException, TipoChaveNaoEncontradoException;
 
 	void excluir(Long cpf) throws MaisDeUmRegistroException, TabelaException, DAOException, SQLException;
 

@@ -18,7 +18,7 @@ import annotation.ColunaTabela;
 import annotation.Tabela;
 import annotation.TipoChave;
 import connection.ConnectionFactory;
-import domain.Persistente;
+import dao.Persistente;
 import exception.DAOException;
 import exception.MaisDeUmRegistroException;
 import exception.TabelaException;
@@ -99,7 +99,7 @@ public abstract class GenericDAO<T extends Persistente, E extends Serializable> 
 	}
 	
 	@Override
-	public T consultar(E valor) throws MaisDeUmRegistroException, TabelaException, DAOException, SQLException {
+	public T consultar(E valor) throws MaisDeUmRegistroException, TabelaException, DAOException, SQLException, TipoChaveNaoEncontradoException {
 		try {
 			validarMaisDeUmRegistro(valor);
 			Connection connection = getConnection();
@@ -196,7 +196,7 @@ public abstract class GenericDAO<T extends Persistente, E extends Serializable> 
 		
 	}
 	
-	private Long validarMaisDeUmRegistro(E valor) throws DAOException, MaisDeUmRegistroException, SQLException, TipoChaveNaoEncontradoException {
+	protected Long validarMaisDeUmRegistro(E valor) throws DAOException, MaisDeUmRegistroException, SQLException, TipoChaveNaoEncontradoException {
 		Connection connection = getConnection();
 		PreparedStatement stm = null;
 		ResultSet rs = null;
@@ -264,6 +264,7 @@ public abstract class GenericDAO<T extends Persistente, E extends Serializable> 
 		}
 	}
 	
+	@SuppressWarnings("unused")
 	private Object getValueByType(Class<?> typeField, ResultSet rs, String fieldName) throws SQLException, TipoElementoNaoEncontradoException {
 		if (typeField.equals(Integer.TYPE)) {
 			return rs.getInt(fieldName);
@@ -284,7 +285,7 @@ public abstract class GenericDAO<T extends Persistente, E extends Serializable> 
 		
 	}
 	
-	private Connection getConnection() throws DAOException {
+	protected Connection getConnection() throws DAOException {
 		try {
 			return ConnectionFactory.getConnection();
 		} catch (SQLException e) {
@@ -292,7 +293,7 @@ public abstract class GenericDAO<T extends Persistente, E extends Serializable> 
 		}
 	}
 	
-	private void closeConnection(Connection connection, PreparedStatement stm, ResultSet rs) throws SQLException {
+	protected void closeConnection(Connection connection, PreparedStatement stm, ResultSet rs) throws SQLException {
 		if(connection != null && !connection.isClosed()) {
 			connection.close();
 		}

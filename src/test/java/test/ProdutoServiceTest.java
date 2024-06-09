@@ -37,7 +37,7 @@ public class ProdutoServiceTest {
 	}
 	
 	@Test
-	public void pesquisarProduto() throws MaisDeUmRegistroException, TabelaException, DAOException, SQLException {
+	public void pesquisarProduto() throws MaisDeUmRegistroException, TabelaException, DAOException, SQLException, TipoChaveNaoEncontradoException {
 		Produto produtoConsultado = service.consultar(produto.getCodigo());
 		Assert.assertNotNull(produtoConsultado);
 	}

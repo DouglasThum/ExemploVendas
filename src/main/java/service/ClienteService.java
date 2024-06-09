@@ -7,6 +7,7 @@ import domain.Cliente;
 import exception.DAOException;
 import exception.MaisDeUmRegistroException;
 import exception.TabelaException;
+import exception.TipoChaveNaoEncontradoException;
 import service.generic.GenericService;
 
 public class ClienteService extends GenericService<Cliente, Long> implements IClienteService {
@@ -16,7 +17,7 @@ public class ClienteService extends GenericService<Cliente, Long> implements ICl
 	}
 
 	@Override
-	public Cliente buscarPorCpf(Long cpf) throws MaisDeUmRegistroException, TabelaException, DAOException, SQLException {
+	public Cliente buscarPorCpf(Long cpf) throws MaisDeUmRegistroException, TabelaException, DAOException, SQLException, TipoChaveNaoEncontradoException {
 		return this.dao.consultar(cpf);
 	}
 }

@@ -23,6 +23,14 @@ public class ProdutoQuantidade {
 		this.quantidade = 0;
 		this.valorTotal = BigDecimal.ZERO;
 	}
+	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	public Produto getProduto() {
 		return produto;

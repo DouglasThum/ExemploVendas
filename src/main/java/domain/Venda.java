@@ -9,12 +9,22 @@ import java.util.Set;
 import annotation.ColunaTabela;
 import annotation.Tabela;
 import annotation.TipoChave;
+import dao.Persistente;
 
 @Tabela("TB_VENDA")
 public class Venda implements Persistente {
 	
 	public enum Status {
 		INICIADA, CONCLUIDA, CANCELADA;
+		
+		public static Status getByName(String value) {
+			for (Status status : Status.values()) {
+	            if (status.name().equals(value)) {
+	                return status;
+	            }
+	        }
+			return null;
+		}
 	}
 	
 	public static Status getByName(String value) {
@@ -148,7 +158,7 @@ public class Venda implements Persistente {
 		return result;		
 	}
 	
-	private void recalcularValorTotalVenda() {
+	public void recalcularValorTotalVenda() {
 		validarStatus();
 		BigDecimal valorTotal = BigDecimal.ZERO;
 		for (ProdutoQuantidade prod : this.produtos) {
